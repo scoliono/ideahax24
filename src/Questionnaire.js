@@ -31,17 +31,20 @@ function sendFormData(event) {
     let name = formData.get("name");
     formData.delete("name");
     // gender is non-negotiable
-    const gender = formData.get("gender");
+    const gender = Number(formData.get("gender"));
     formData.delete("gender");
     // relationship goal is non-negotiable
     const goal = formData.get("goal");
     formData.delete("goal");
     // desired gender handled as bitmask
-    const desiredGender = formData.getAll("desiredGender");
+    const desiredGenderVec = formData.getAll("desiredGender");
     formData.delete("desiredGender");
+    const desiredGender = desiredGenderVec.reduce((prev, val) => {
+        return prev |= Number(val);
+    }, 0);
 
     // birth year not part of similarity vector
-    const bdayYear = formData.get("bdayYear");
+    const bdayYear = Number(formData.get("bdayYear"));
     formData.delete("bdayYear");
 
     // vector for cosine similarity
@@ -105,7 +108,7 @@ function Questionnaire() {
                         required
                         type="radio"
                         label="Male"
-                        value="001"
+                        value="1"
                         name="gender"
                     />
                     <Form.Check
@@ -113,7 +116,7 @@ function Questionnaire() {
                         required
                         type="radio"
                         label="Female"
-                        value="010"
+                        value="2"
                         name="gender"
                     />
                     <Form.Check
@@ -121,7 +124,7 @@ function Questionnaire() {
                         required
                         type="radio"
                         label="Other"
-                        value="100"
+                        value="4"
                         name="gender"
                     />
                 </div>
@@ -135,21 +138,21 @@ function Questionnaire() {
                         inline
                         type="checkbox"
                         label="Male"
-                        value="001"
+                        value="1"
                         name="desiredGender"
                     />
                     <Form.Check
                         inline
                         type="checkbox"
                         label="Female"
-                        value="010"
+                        value="2"
                         name="desiredGender"
                     />
                     <Form.Check
                         inline
                         type="checkbox"
                         label="Other"
-                        value="100"
+                        value="4"
                         name="desiredGender"
                     />
                 </div>
