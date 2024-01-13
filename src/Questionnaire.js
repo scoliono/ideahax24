@@ -34,7 +34,7 @@ function sendFormData(event) {
     const gender = Number(formData.get("gender"));
     formData.delete("gender");
     // relationship goal is non-negotiable
-    const goal = formData.get("goal");
+    const goal = Number(formData.get("goal"));
     formData.delete("goal");
     // desired gender handled as bitmask
     const desiredGenderVec = formData.getAll("desiredGender");
