@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include "constants.h"
+#include "serial.hpp"
 
 
 void beep(int totalwidth, int cycwidth) {
@@ -11,7 +12,7 @@ void beep(int totalwidth, int cycwidth) {
     delayMicroseconds(cycwidth/2);
     digitalWrite(BUZZER_PIN, LOW);
     delayMicroseconds(cycwidth/2);
-  } 
+  }
 }
 
 void beepDown() {
@@ -36,16 +37,16 @@ void beepError() {
 
 
 
+PemdasSerial* srl;
+Profile* me;
 
 void setup() {
   pinMode(BUZZER_PIN, OUTPUT);
-
-  // begin serial
-  Serial.begin(9600);
-  while (!Serial);
-  Serial.println("Initialized Serial");
+  srl = new PemdasSerial;
+  me = new Profile;
 }
 
-void loop() {  
-    beepError();
+void loop() {
+    srl->recvProfile(me);
+    // beepError();
 }
