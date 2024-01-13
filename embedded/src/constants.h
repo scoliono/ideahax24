@@ -1,0 +1,1 @@
+const int BUZZER_PIN = 32;
