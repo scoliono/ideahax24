@@ -1,0 +1,189 @@
+[
+    {
+        "label": "Favorite genre of music?",
+        "name": "music",
+        "options": [
+            "Rock",
+            "Classical",
+            "Pop",
+            "Jazz"
+        ]
+    },
+    {
+        "label": "Dietary restrictions?",
+        "name": "diet",
+        "options": [
+            "None",
+            "Pescatarian",
+            "Gluten free",
+            "Vegetarian",
+            "Vegan"
+        ]
+    },
+    {
+        "label": "Relationship goals?",
+        "name": "goal",
+        "options": [
+            "Friendship",
+            "Dating",
+            "Marriage"
+        ]
+    },
+    {
+        "label": "Major department?",
+        "name": "major",
+        "options": [
+            "Arts & Architecture",
+            "Engineering",
+            "UCLA College",
+            "Education & Info Studies",
+            "Music",
+            "Nursing",
+            "Public Affairs",
+            "Theater, Film & TV"
+        ]
+    },
+    {
+        "label": "What's the earliest time class you would be willing to take?",
+        "name": "classtime",
+        "options": [
+            "8 AM",
+            "9 AM",
+            "10 AM",
+            "2 PM"
+        ]
+    },
+    {
+        "label": "Favorite color?",
+        "name": "color",
+        "options": [
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Purple",
+            "White",
+            "Black",
+            "Brown"
+        ]
+    },
+    {
+        "label": "Blood type?",
+        "name": "blood",
+        "options": [
+            "O +/-",
+            "A +/-",
+            "B +/-",
+            "AB +/-"
+        ]
+    },
+    {
+        "label": "If you had a brand new bedroom, what would you decorate it with?",
+        "name": "bedroom",
+        "options": [
+            "Posters",
+            "Ceiling lighting strips",
+            "House plants",
+            "Oscilloscopes"
+        ]
+    },
+    {
+        "label": "In a zombie apocalypse, would you prefer to fight them off with a pool noodle or a baguette?",
+        "name": "zombie",
+        "options": [
+            "Pool noodle",
+            "Baguette"
+        ]
+    },
+    {
+        "label": "Which best describes your interpersonal relationships?",
+        "name": "interpersonal",
+        "options": [
+            "Resistor",
+            "Inductor"
+        ]
+    },
+    {
+        "label": "In a circuit of emotions, your response to stress is like a",
+        "name": "circuit",
+        "options": [
+            "Diode: letting negativity flow in only one direction",
+            "Zener diode: maintaining a stable breakdown voltage",
+            "LED: emitting a calm glow amidst chaos"
+        ]
+    },
+    {
+        "label": "Which floor of Boelter Hall is your favorite?",
+        "name": "boelter",
+        "options": [
+            "1", "4", "5", "9"
+        ]
+    },
+    {
+        "label": "If our relationship were a waveform, it would most resemble a",
+        "name": "wave",
+        "options": [
+            "Sine wave: smooth and harmonious",
+            "Square wave: full of surprises and sharp transitions",
+            "Triangle wave: steadily ascending, with occasional peaks"
+        ]
+    },
+    {
+        "label": "Which of these sounds like the most enticing first date location?",
+        "name": "firstdate",
+        "options": [
+            "The 405 Freeway",
+            "Santa Monica Sock Museum",
+            "The Bachrooms",
+            "CS 36L discussion"
+        ]
+    },
+    {
+        "label": "What's a fun fact about yourself?",
+        "name": "funfact",
+        "options": [
+            "I've never had COVID (but I have ligma)",
+            "I can taste a square wave",
+            "My family members were in the mob",
+            "I just lost The Game"
+        ]
+    },
+    {
+        "label": "Why Do They Call It Oven When You Of In The Cold Food Of Out Hot Eat The Food?",
+        "name": "oven",
+        "options": [
+            "Yes",
+            "No"
+        ]
+    },
+    {
+        "label": "You need to take a GE, which one are you choosing?",
+        "name": "ge",
+        "options": [
+            "ENVIRON 107: Oceanic Eel Empowerment through Sustainable Car Battery Baptism",
+            "FILM TV 66: Study of Antarctican Cinema",
+            "ART HIS 185: Undergraduate Seminar: The Role of Washing Machines in Impressionist Art",
+            "MGMT 43: Special Topics in Business: Long Division"
+        ]
+    },
+    {
+        "label": "Two truths and a lie: which one of these statements about you is the lie?",
+        "name": "twotruths",
+        "options": [
+            "One time I sat down in lecture and everyone next to me moved away because I smelled",
+            "I once got pantsed on a viral TikTok prank video",
+            "A bird once pooped on me twice in a day"
+        ]
+    },
+    {
+        "label": "Any final things your future partner should know about you?",
+        "name": "final",
+        "options": [
+            "I tend to refer to myself in the third person in conversation",
+            "I once made out with my oscilloscope",
+            "My \"homework\" folder is 2 terabytes",
+            "I have an entire room in my house full of anime figurines"
+        ]
+    }
+]
