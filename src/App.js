@@ -10,7 +10,7 @@ function App() {
     <Container className="App">
         <Row>
             <Col></Col>
-            <Col>
+            <Col lg="8" className="main">
                 <h1 className="title">Dating Questionnaire</h1>
                 <Questionnaire></Questionnaire>
             </Col>

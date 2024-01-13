@@ -2,6 +2,18 @@
     text-align: center;
 }
 
+body {
+    background-color: pink !important;
+}
+
 .App .title {
     margin: 1.5rem 0;
+}
+
+.App .main {
+    background-color: white;
+}
+
+.App .text-left {
+    text-align: start;
 }

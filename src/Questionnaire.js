@@ -8,7 +8,7 @@ import MCQuestions from './MCQuestions';
 function BirthdayDateSelect() {
     const options = [];
     for (let i = 1; i <= 31; ++i) {
-        options.push(<option value={i}>{i}</option>);
+        options.push(<option key={`bday_date_${i}`} value={i}>{i}</option>);
     }
     return options;
 }
@@ -16,7 +16,7 @@ function BirthdayDateSelect() {
 function BirthdayYearSelect() {
     const options = [];
     for (let i = 0; i < 50; ++i) {
-        options.push(<option value={2006 - i}>{2006 - i}</option>);
+        options.push(<option key={`bday_year_${i}`} value={2006 - i}>{2006 - i}</option>);
     }
     return options;
 }
@@ -26,6 +26,35 @@ function sendFormData(event) {
     const form = document.getElementById("questionnaire");
     const formData = new FormData(form);
     console.log(formData);
+
+    // name is not part of similarity
+    let name = formData.get("name");
+    formData.delete("name");
+    // gender is non-negotiable
+    const gender = formData.get("gender");
+    formData.delete("gender");
+    // relationship goal is non-negotiable
+    const goal = formData.get("goal");
+    formData.delete("goal");
+    // desired gender handled as bitmask
+    const desiredGender = formData.getAll("desiredGender");
+    formData.delete("desiredGender");
+
+    // birth year not part of similarity vector
+    const bdayYear = formData.get("bdayYear");
+    formData.delete("bdayYear");
+
+    // vector for cosine similarity
+    const similarity = [...formData.values()].join("");
+    const payload = {
+        name,
+        bdayYear,
+        gender,
+        desiredGender,
+        goal,
+        similarity
+    };
+    console.log("Payload:", payload);
 }
 
 function Questionnaire() {
@@ -33,13 +62,13 @@ function Questionnaire() {
         <Form onSubmit={sendFormData} id="questionnaire">
             <Form.Group className="mb-3" controlId="name">
                 <Form.Label>Name</Form.Label>
-                <Form.Control placeholder="John Smith" required maxLength={32} />
+                <Form.Control name="name" placeholder="John Smith" required maxLength={32} />
             </Form.Group>
             <Form.Label>Birthday</Form.Label>
             <Container className="mb-3">
                 <Row>
                     <Col>
-                        <Form.Select id="bdayMonth">
+                        <Form.Select>
                             <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
@@ -55,12 +84,12 @@ function Questionnaire() {
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Form.Select id="bdayDate">
+                        <Form.Select>
                             <BirthdayDateSelect></BirthdayDateSelect>
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Form.Select id="bdayYear">
+                        <Form.Select name="bdayYear">
                             <BirthdayYearSelect></BirthdayYearSelect>
                         </Form.Select>
                     </Col>
@@ -76,7 +105,7 @@ function Questionnaire() {
                         required
                         type="radio"
                         label="Male"
-                        value="M"
+                        value="001"
                         name="gender"
                     />
                     <Form.Check
@@ -84,7 +113,7 @@ function Questionnaire() {
                         required
                         type="radio"
                         label="Female"
-                        value="F"
+                        value="010"
                         name="gender"
                     />
                     <Form.Check
@@ -92,12 +121,12 @@ function Questionnaire() {
                         required
                         type="radio"
                         label="Other"
-                        value="N"
+                        value="100"
                         name="gender"
                     />
                 </div>
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-5">
                 <Form.Label>
                     Looking for
                 </Form.Label>
@@ -106,27 +135,27 @@ function Questionnaire() {
                         inline
                         type="checkbox"
                         label="Male"
-                        value="M"
+                        value="001"
                         name="desiredGender"
                     />
                     <Form.Check
                         inline
                         type="checkbox"
                         label="Female"
-                        value="F"
+                        value="010"
                         name="desiredGender"
                     />
                     <Form.Check
                         inline
                         type="checkbox"
                         label="Other"
-                        value="N"
+                        value="100"
                         name="desiredGender"
                     />
                 </div>
             </Form.Group>
             <MCQuestions />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="mb-5">Submit</Button>
         </Form>
     );
 }
