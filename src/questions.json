@@ -1,5 +1,14 @@
 [
     {
+        "label": "Relationship goals?",
+        "name": "goal",
+        "options": [
+            "Friendship",
+            "Dating",
+            "Marriage"
+        ]
+    },
+    {
         "label": "Favorite genre of music?",
         "name": "music",
         "options": [
@@ -18,15 +27,6 @@
             "Gluten free",
             "Vegetarian",
             "Vegan"
-        ]
-    },
-    {
-        "label": "Relationship goals?",
-        "name": "goal",
-        "options": [
-            "Friendship",
-            "Dating",
-            "Marriage"
         ]
     },
     {
