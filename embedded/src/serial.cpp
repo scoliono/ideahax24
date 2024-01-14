@@ -1,4 +1,5 @@
 #include "serial.hpp"
+#include "constants.h"
 #include <Arduino.h>
 
 PemdasSerial::PemdasSerial()
@@ -28,12 +29,8 @@ bool PemdasSerial::recvProfile(struct Profile *out)
         return false;
     }
 
-    out->name = doc["name"];
-    out->bdayYear = doc["bdayYear"];
-    out->gender = doc["gender"];
-    out->desiredGender = doc["desiredGender"];
-    out->goal = doc["goal"];
-    out->similarity = doc["similarity"];
+    Profile prof = Profile::fromJSON(doc);
+    *out = prof;
 
     sendProfileAck(out);
     return true;
@@ -42,12 +39,7 @@ bool PemdasSerial::recvProfile(struct Profile *out)
 void PemdasSerial::sendProfileAck(struct Profile* prof)
 {
     StaticJsonDocument<JSON_DOC_LEN> doc;
-    doc["name"] = prof->name;
-    doc["bdayYear"] = prof->bdayYear;
-    doc["gender"] = prof->gender;
-    doc["desiredGender"] = prof->desiredGender;
-    doc["goal"] = prof->goal;
-    doc["similarity"] = prof->similarity;
+    prof->toJSON(doc);
     serializeJson(doc, Serial);
 
     // ignore extraneous bytes

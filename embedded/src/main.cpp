@@ -1,52 +1,39 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <stdint.h>
 
 #include "constants.h"
+#include "bt.hpp"
+#include "beep.h"
 #include "serial.hpp"
 
 
-void beep(int totalwidth, int cycwidth) {
-  int cycles = totalwidth/cycwidth;
-  for(int i = 0; i < cycles; i++) {
-    digitalWrite(BUZZER_PIN, HIGH);
-    delayMicroseconds(cycwidth/2);
-    digitalWrite(BUZZER_PIN, LOW);
-    delayMicroseconds(cycwidth/2);
-  }
-}
-
-void beepDown() {
-  beep(100000, 1000);
-  delay(100);
-  beep(100000, 2000);
-  beep(100000, 2000);
-}
-
-void beepUp() {
-  beep(100000, 2000);
-  beep(100000, 1000);
-}
-
-void beepError() {
-  beep(100000, 2000);
-  delayMicroseconds(100000);
-  beep(100000, 2000);
-  delayMicroseconds(100000);
-  beep(100000, 2000);
-}
-
-
-
 PemdasSerial* srl;
+PemdasBluetooth* bt;
 Profile* me;
 
 void setup() {
-  pinMode(BUZZER_PIN, OUTPUT);
-  srl = new PemdasSerial;
-  me = new Profile;
+    pinMode(BUZZER_PIN, OUTPUT);
+    srl = new PemdasSerial;
+    //me = new Profile;
+    me = new Profile{
+        .name = "James S",
+        .bdayYear = 2002,
+        .gender = 1,
+        .desiredGender = 2,
+        .goal = 100,
+        .similarity = "0010010000010000001000000010001000001010010100100001100010000101001000010"
+    };
+
+    // blocks until profile is transferred
+    //srl->recvProfile(me);
+
+    // bt needs to know our own profile
+    bt = new PemdasBluetooth(me);
 }
 
 void loop() {
-    srl->recvProfile(me);
     // beepError();
+    bt->loop();
+    delay(10);
 }

@@ -91,6 +91,7 @@ async function sendFormData(event) {
     } else {
         alert("Failed to get ack from ESP32");
     }
+    await port.close();
 }
 
 function str2ab(str) {
