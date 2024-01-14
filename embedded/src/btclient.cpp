@@ -1,5 +1,10 @@
 #include "btclient.hpp"
 #include "profile.hpp"
+#include "disp.hpp"
+
+static int lastButton = 0;
+static Profile match;
+static bool foundMatch = false;
 
 PemdasBluetoothClient::PemdasBluetoothClient(const Profile* profile)
 {
@@ -19,6 +24,8 @@ PemdasBluetoothClient::PemdasBluetoothClient(const Profile* profile)
      *  but will use more energy from both devices
      */
     pScan->setActiveScan(true);
+
+    pScan->start(0);
 
     Serial.println("client: scanning for dating services...");
 }
@@ -135,6 +142,9 @@ void PemdasBluetoothClient::detectMatch(Profile other)
 {
     if (me->isMatch(&other)) {
         Serial.println("Found match!!!");
+        match = other;
+        foundMatch = true;
+        displayMatchFound(&match);
     } else {
         Serial.println("We are not a match with this user");
     }
@@ -142,6 +152,20 @@ void PemdasBluetoothClient::detectMatch(Profile other)
 
 void PemdasBluetoothClient::loop()
 {
+    // check for button press to cycle screens
+    if (digitalRead(DISP_BUTTON) == LOW && millis() - lastButton > 300) {
+        int buttonStart = millis();
+        while (digitalRead(DISP_BUTTON) == LOW);
+        int buttonDir = millis() - buttonStart;
+        lastButton = millis();
+        if (buttonDir > 5000) {
+            // long press: clear this match
+            displayInit();
+        } else if (foundMatch) {
+            displayMatchDesc(&match);
+        }
+    }
+
     /** Ignore until we find a device we want to connect to */
     if (!doConnect) {
         return;
@@ -150,12 +174,10 @@ void PemdasBluetoothClient::loop()
     doConnect = false;
 
     /** Found a device we want to connect to, do it now */
-    connectToServer();
-    /*
     if (connectToServer()) {
         Serial.println("Success! we should now be getting notifications, scanning for more!");
     } else {
         Serial.println("Failed to connect, starting scan");
+        NimBLEDevice::getScan()->start(0);
     }
-    */
 }

@@ -29,8 +29,7 @@ bool PemdasSerial::recvProfile(struct Profile *out)
         return false;
     }
 
-    Profile prof = Profile::fromJSON(doc);
-    *out = prof;
+    *out = Profile::fromJSON(doc);
 
     sendProfileAck(out);
     return true;

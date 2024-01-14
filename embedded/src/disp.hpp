@@ -1,13 +1,11 @@
 #ifndef DISP_HPP
 #define DISP_HPP
 
-class Display {
-public:
-    Display();
-    ~Display();
-    void loop();
-private:
-    void stateChange();
-};
+#include "profile.hpp"
+
+void displayReset();
+void displayInit();
+void displayMatchFound(const Profile* other);
+void displayMatchDesc(const Profile* other);
 
 #endif

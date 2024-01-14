@@ -10,10 +10,8 @@ static PemdasBluetoothClient* client;
 
 PemdasBluetooth::PemdasBluetooth(const Profile* me)
 {
-    srand(time(NULL));
-
     std::ostringstream deviceNameOss;
-    deviceNameOss << "pemdas_" << rand();
+    deviceNameOss << "pemdas_" << random(1000);
 
     NimBLEDevice::init(deviceNameOss.str());
     NimBLEDevice::setPower(ESP_PWR_LVL_P9); /** +9db */

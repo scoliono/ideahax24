@@ -34,18 +34,29 @@ void beepError() {
     beep(100000, 2000);
 }
 
+void playFreq(int freq, int ms) {
+    int period = 1000000/freq;
+    int iter = ms *1000 / period;
+    for (int i = 0; i < iter; i++){
+        digitalWrite(BUZZER_PIN, HIGH);
+        delayMicroseconds(period/2);
+        digitalWrite(BUZZER_PIN, LOW);
+        delayMicroseconds(period/2);
+    }
+}
+
 void playTune() {
-    tone(15, 880, 250);
-    tone(15, 988, 250);
-    tone(15, 1109, 250);
-    tone(15, 988, 250);
-    tone(15, 880, 250);
-    tone(15, 831, 250);
-    tone(15, 740, 250);
-    tone(15, 988, 250);
-    tone(15, 831, 250);
-    tone(15, 659, 250);
-    tone(15, 880, 1000);
+    playFreq(880, 250);
+    playFreq(988, 250);
+    playFreq(1109, 250);
+    playFreq(988, 250);
+    playFreq(880, 250);
+    playFreq(831, 250);
+    playFreq(740, 250);
+    playFreq(988, 250);
+    playFreq(831, 250);
+    playFreq(659, 250);
+    playFreq(880, 1000);
 }
 
 #endif
