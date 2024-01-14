@@ -43,6 +43,5 @@ public:
     ~PemdasSerial();
     bool recvProfile(struct Profile* out);
 private:
-    void sendProfileAck();
-    char json[MAX_PAYLOAD_LEN];
+    void sendProfileAck(struct Profile* prof);
 };

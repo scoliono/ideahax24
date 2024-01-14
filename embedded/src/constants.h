@@ -3,7 +3,7 @@
 
 
 const int BUZZER_PIN = 32;
-const int MAX_PAYLOAD_LEN = 188;
+const int JSON_DOC_LEN = 384;   // use ArduinoJSON calculator
 const int SIMILARITY_VEC_LEN = 73;
 
 

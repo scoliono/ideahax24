@@ -15,9 +15,11 @@ PemdasSerial::~PemdasSerial()
 
 bool PemdasSerial::recvProfile(struct Profile *out)
 {
-    Serial.read(this->json, MAX_PAYLOAD_LEN);
-    DynamicJsonDocument doc(MAX_PAYLOAD_LEN);
-    DeserializationError error = deserializeJson(doc, this->json);
+    while (!Serial.available())
+        ;
+
+    DynamicJsonDocument doc(JSON_DOC_LEN);
+    DeserializationError error = deserializeJson(doc, Serial);
 
     // Test if parsing succeeds.
     if (error) {
@@ -33,11 +35,22 @@ bool PemdasSerial::recvProfile(struct Profile *out)
     out->goal = doc["goal"];
     out->similarity = doc["similarity"];
 
-    sendProfileAck();
+    sendProfileAck(out);
     return true;
 }
 
-void PemdasSerial::sendProfileAck()
+void PemdasSerial::sendProfileAck(struct Profile* prof)
 {
-    Serial.write(this->json);
+    StaticJsonDocument<JSON_DOC_LEN> doc;
+    doc["name"] = prof->name;
+    doc["bdayYear"] = prof->bdayYear;
+    doc["gender"] = prof->gender;
+    doc["desiredGender"] = prof->desiredGender;
+    doc["goal"] = prof->goal;
+    doc["similarity"] = prof->similarity;
+    serializeJson(doc, Serial);
+
+    // ignore extraneous bytes
+    while (Serial.available())
+        Serial.read();
 }
