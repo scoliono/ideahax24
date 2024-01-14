@@ -6,6 +6,6 @@
 void displayReset();
 void displayInit();
 void displayMatchFound(const Profile* other);
-void displayMatchDesc(const Profile* other);
+void displayMatchDesc(const Profile* me, const Profile* other);
 
 #endif

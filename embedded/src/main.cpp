@@ -15,15 +15,15 @@ Profile* me;
 void setup() {
     pinMode(BUZZER_PIN, OUTPUT);
     srl = new PemdasSerial;
-    //me = new Profile;
-    me = new Profile{
+    me = new Profile;
+    /*me = new Profile{
         .name = "James S",
         .bdayYear = 2002,
         .gender = 2,
         .desiredGender = 7,
         .goal = 100,
         .similarity = "0010010000010000001000000010001000001010010100100001100010000101001000010"
-    };
+    };*/
 
     // blocks until profile is transferred
     //srl->recvProfile(me);

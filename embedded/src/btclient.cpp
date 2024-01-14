@@ -162,7 +162,7 @@ void PemdasBluetoothClient::loop()
             // long press: clear this match
             displayInit();
         } else if (foundMatch) {
-            displayMatchDesc(&match);
+            displayMatchDesc(this->me, &match);
         }
     }
 

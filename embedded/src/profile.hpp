@@ -34,6 +34,16 @@ struct Profile {
      * Deserializes a profile from JSON.
      */
     static Profile fromJSON(const JsonDocument& doc);
+
+    struct QAPair {
+        int q;
+        int a;
+    };
+
+    /**
+     * Produces the indices of questions where two users have the same answers.
+     */
+    static void overlaps(const struct Profile *p1, const struct Profile *p2, struct QAPair **out, int *outLen);
 };
 
 #endif
