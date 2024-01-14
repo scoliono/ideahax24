@@ -21,11 +21,30 @@ function BirthdayYearSelect() {
     return options;
 }
 
-function sendFormData(event) {
+const usbProductId = 60000;
+const usbVendorId = 4292;
+
+async function setupPort() {
+    if (!navigator.serial) {
+        alert("Your browser does not have the Web Serial API enabled, please use Chrome and enable it in chrome://flags");
+        return false;
+    }
+    const port = await navigator.serial.requestPort({ filters: [{ usbProductId, usbVendorId }] });
+    try {
+        await port.open({ baudRate: 9600 });
+    } catch (err) {
+        // DOMException if port is open is normal
+        if (!(err instanceof DOMException)) {
+            console.error(err);
+        }
+    }
+    return port;
+}
+
+async function sendFormData(event) {
     event.preventDefault();
     const form = document.getElementById("questionnaire");
     const formData = new FormData(form);
-    console.log(formData);
 
     // name is not part of similarity
     let name = formData.get("name");
@@ -49,15 +68,80 @@ function sendFormData(event) {
 
     // vector for cosine similarity
     const similarity = [...formData.values()].join("");
-    const payload = {
+    const payload = JSON.stringify({
         name,
         bdayYear,
         gender,
         desiredGender,
         goal,
         similarity
-    };
+    });
     console.log("Payload:", payload);
+
+    const port = await setupPort();
+    if (!(await sendProfileSerial(port, str2ab(payload)))) {
+        alert("Failed to send profile to ESP32, verify that the port is writable");
+        return;
+    }
+    const ack = await readAckSerial(port);
+    if (ack && ack === payload) {
+        alert("Successfully uploaded profile to ESP32!");
+    } else if (ack !== payload) {
+        alert("Profile ack from ESP32 did not match!");
+    } else {
+        alert("Failed to get ack from ESP32");
+    }
+}
+
+function str2ab(str) {
+    const buf = new ArrayBuffer(str.length);
+    const bufView = new Uint8Array(buf);
+    for (var i = 0, strLen = str.length; i < strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
+}
+
+async function sendProfileSerial(port, profile) {
+    if (!port.writable) {
+        return false;
+    }
+    const writer = port.writable.getWriter();
+    try {
+        await writer.write(profile);
+        console.log("Serial tx done");
+        writer.releaseLock();
+    } catch (err) {
+        console.error("Serial tx error:", err);
+        writer.releaseLock();
+        return false;
+    }
+    return true;
+}
+
+async function readAckSerial(port) {
+    const reader = port.readable.getReader();
+    let ack = "";
+    // releasing the lock will stop the read
+    setTimeout(() => {
+        reader.releaseLock();
+    }, 1000);
+    try {
+        while (true) {
+            const { value } = await reader.read();
+            const char = String.fromCharCode(value[0]);
+            ack += char;
+        }
+    } catch (err) {
+        // TypeError is expected when releasing reader on timeout
+        if (!(err instanceof TypeError)) {
+            console.error("Serial rx error:", err);
+            reader.releaseLock();
+        }
+    } finally {
+        console.log("Serial rx:", ack);
+        return ack;
+    }
 }
 
 function Questionnaire() {
