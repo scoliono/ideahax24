@@ -6,7 +6,7 @@ PemdasSerial::PemdasSerial()
 {
     Serial.begin(9600);
     while (!Serial);
-    Serial.println("Initialized Serial");
+    //Serial.println("Initialized Serial");
 }
 
 PemdasSerial::~PemdasSerial()
@@ -24,8 +24,8 @@ bool PemdasSerial::recvProfile(struct Profile *out)
 
     // Test if parsing succeeds.
     if (error) {
-        Serial.print(F("deserializeJson() failed: "));
-        Serial.println(error.f_str());
+        //Serial.print(F("deserializeJson() failed: "));
+        //Serial.println(error.f_str());
         return false;
     }
 

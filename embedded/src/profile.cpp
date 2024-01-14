@@ -64,8 +64,8 @@ bool Profile::isMatch(const struct Profile *other) const
     bool acceptableAgeGap = olderAge / 2 + 7 <= youngerAge;
 
     float cossim = cosSimilarity(this, other);
-    Serial.printf("Cosine similarity: %f\n", cossim);
-    return cossim > 0.5 &&
+    //Serial.printf("Cosine similarity: %f\n", cossim);
+    return cossim > 0.2 &&
         acceptableAgeGap &&
         (other->gender & this->desiredGender) == other->gender &&
         (this->gender & other->desiredGender) == this->gender &&
@@ -84,7 +84,7 @@ struct Profile::QAPair questionFromAnswer(int ansIdx)
             };
         }
     }
-    Serial.println("QfromA: this should not happen!");
+    //Serial.println("QfromA: this should not happen!");
     return Profile::QAPair{
         .q = -1,
         .a = -1
@@ -129,8 +129,10 @@ Profile Profile::fromJSON(const JsonDocument& doc)
 {
     char* name = new char[NAME_LEN+1];
     strncpy(name, doc["name"], NAME_LEN);
+    name[NAME_LEN] = '\0';
     char* similarity = new char[SIMILARITY_VEC_LEN+1];
     strncpy(similarity, doc["similarity"], SIMILARITY_VEC_LEN);
+    similarity[SIMILARITY_VEC_LEN] = '\0';
 
     Profile prof;
     prof.name = name;

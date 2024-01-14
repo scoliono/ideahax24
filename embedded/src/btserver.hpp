@@ -8,22 +8,22 @@
 /** Handler class for characteristic actions */
 class PemdasCharacteristicCallbacks : public NimBLECharacteristicCallbacks {
     void onRead(NimBLECharacteristic* pCharacteristic) {
-        Serial.print(pCharacteristic->getUUID().toString().c_str());
-        Serial.print(": onRead(), value: ");
-        Serial.println(pCharacteristic->getValue().c_str());
+        //Serial.print(pCharacteristic->getUUID().toString().c_str());
+        //Serial.print(": onRead(), value: ");
+        //Serial.println(pCharacteristic->getValue().c_str());
     }
 
     void onWrite(NimBLECharacteristic* pCharacteristic) {
-        Serial.print(pCharacteristic->getUUID().toString().c_str());
-        Serial.print(": onWrite(), value: ");
-        Serial.println(pCharacteristic->getValue().c_str());
+        //Serial.print(pCharacteristic->getUUID().toString().c_str());
+        //Serial.print(": onWrite(), value: ");
+        //Serial.println(pCharacteristic->getValue().c_str());
     }
 
     /** Called before notification or indication is sent,
      *  the value can be changed here before sending if desired.
      */
     void onNotify(NimBLECharacteristic* pCharacteristic) {
-        Serial.println("Sending notification to clients");
+        //Serial.println("Sending notification to clients");
     }
 
     /** The status returned in status is defined in NimBLECharacteristic.h.
@@ -36,7 +36,7 @@ class PemdasCharacteristicCallbacks : public NimBLECharacteristicCallbacks {
         str += code;
         str += ", ";
         str += NimBLEUtils::returnCodeToString(code);
-        Serial.println(str);
+        //Serial.println(str);
     }
 
     void onSubscribe(NimBLECharacteristic* pCharacteristic, ble_gap_conn_desc* desc, uint16_t subValue) {
@@ -55,7 +55,7 @@ class PemdasCharacteristicCallbacks : public NimBLECharacteristicCallbacks {
         }
         str += std::string(pCharacteristic->getUUID()).c_str();
 
-        Serial.println(str);
+        //Serial.println(str);
     }
 };
 

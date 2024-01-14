@@ -27,7 +27,7 @@ PemdasBluetoothClient::PemdasBluetoothClient(const Profile* profile)
 
     pScan->start(0);
 
-    Serial.println("client: scanning for dating services...");
+    //Serial.println("client: scanning for dating services...");
 }
 
 PemdasBluetoothClient::~PemdasBluetoothClient()
@@ -48,10 +48,10 @@ bool PemdasBluetoothClient::connectToServer() {
         pClient = NimBLEDevice::getClientByPeerAddress(advDevice->getAddress());
         if (pClient) {
             if (!pClient->connect(advDevice, false)) {
-                Serial.println("Reconnect failed");
+                //Serial.println("Reconnect failed");
                 return false;
             }
-            Serial.println("Reconnected client");
+            //Serial.println("Reconnected client");
         }
         /** We don't already have a client that knows this device,
          *  we will check for a client that is disconnected that we can use.
@@ -64,13 +64,13 @@ bool PemdasBluetoothClient::connectToServer() {
     /** No client to reuse? Create a new one. */
     if (!pClient) {
         if(NimBLEDevice::getClientListSize() >= NIMBLE_MAX_CONNECTIONS) {
-            Serial.println("Max clients reached - no more connections available");
+            //Serial.println("Max clients reached - no more connections available");
             return false;
         }
 
         pClient = NimBLEDevice::createClient();
 
-        Serial.println("New client created");
+        //Serial.println("New client created");
 
         /** Set initial connection parameters: These settings are 15ms interval, 0 latency, 120ms timout.
          *  These settings are safe for 3 clients to connect reliably, can go faster if you have less
@@ -84,22 +84,22 @@ bool PemdasBluetoothClient::connectToServer() {
         if (!pClient->connect(advDevice)) {
             /** Created a client but failed to connect, don't need to keep it as it has no data */
             NimBLEDevice::deleteClient(pClient);
-            Serial.println("Failed to connect, deleted client");
+            //Serial.println("Failed to connect, deleted client");
             return false;
         }
     }
 
     if (!pClient->isConnected()) {
         if (!pClient->connect(advDevice)) {
-            Serial.println("Failed to connect");
+            //Serial.println("Failed to connect");
             return false;
         }
     }
 
-    Serial.print("Connected to: ");
-    Serial.println(pClient->getPeerAddress().toString().c_str());
-    Serial.print("RSSI: ");
-    Serial.println(pClient->getRssi());
+    //Serial.print("Connected to: ");
+    //Serial.println(pClient->getPeerAddress().toString().c_str());
+    //Serial.print("RSSI: ");
+    //Serial.println(pClient->getRssi());
 
     /** Now we can read/write/subscribe the charateristics of the services we are interested in */
     NimBLERemoteService* pSvc = nullptr;
@@ -112,15 +112,15 @@ bool PemdasBluetoothClient::connectToServer() {
 
         if (pChr) {     /** make sure it's not null */
             if (pChr->canRead()) {
-                Serial.print(pChr->getUUID().toString().c_str());
-                Serial.print(" Value: ");
-                Serial.println(pChr->readValue().c_str());
+                //Serial.print(pChr->getUUID().toString().c_str());
+                //Serial.print(" Value: ");
+                //Serial.println(pChr->readValue().c_str());
 
                 // deserialize the json
                 DynamicJsonDocument doc(JSON_DOC_LEN);
                 DeserializationError error = deserializeJson(doc, pChr->readValue().c_str());
                 if (error) {
-                    Serial.println("Error deserializing json!");
+                    //Serial.println("Error deserializing json!");
                 } else {
                     Profile other = Profile::fromJSON(doc);
                     detectMatch(other);
@@ -131,22 +131,22 @@ bool PemdasBluetoothClient::connectToServer() {
             pClient->disconnect();
         }
     } else {
-        Serial.println("Dating service not found.");
+        //Serial.println("Dating service not found.");
     }
 
-    Serial.println("Done with this device!");
+    //Serial.println("Done with this device!");
     return true;
 }
 
 void PemdasBluetoothClient::detectMatch(Profile other)
 {
     if (me->isMatch(&other)) {
-        Serial.println("Found match!!!");
+        //Serial.println("Found match!!!");
         match = other;
         foundMatch = true;
         displayMatchFound(&match);
     } else {
-        Serial.println("We are not a match with this user");
+        //Serial.println("We are not a match with this user");
     }
 }
 
@@ -158,7 +158,7 @@ void PemdasBluetoothClient::loop()
         while (digitalRead(DISP_BUTTON) == LOW);
         int buttonDir = millis() - buttonStart;
         lastButton = millis();
-        if (buttonDir > 5000) {
+        if (buttonDir > 3000) {
             // long press: clear this match
             displayInit();
         } else if (foundMatch) {
@@ -175,9 +175,9 @@ void PemdasBluetoothClient::loop()
 
     /** Found a device we want to connect to, do it now */
     if (connectToServer()) {
-        Serial.println("Success! we should now be getting notifications, scanning for more!");
+        //Serial.println("Success! we should now be getting notifications, scanning for more!");
     } else {
-        Serial.println("Failed to connect, starting scan");
+        //Serial.println("Failed to connect, starting scan");
         NimBLEDevice::getScan()->start(0);
     }
 }

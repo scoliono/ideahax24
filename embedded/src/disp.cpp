@@ -9,7 +9,7 @@
 
 static Adafruit_SSD1306 display(128, 64, &Wire, -1);
 static int commonInd = 0;
-static int state = 0;
+static int hasMatched = false;
 
 void displayReset()
 {
@@ -43,14 +43,17 @@ void displayInit()
 }
 
 void displayMatchFound(const Profile* other) {
-    displayReset();
-    display.setTextSize(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.println("MATCH\nFOUND!!");
-    display.printf("%s\n", other->name);
-    display.display();
-    commonInd = -1;
-    playTune();
+    if (!hasMatched) {
+        displayReset();
+        display.setTextSize(2);
+        display.setTextColor(SSD1306_WHITE);
+        display.println("MATCH\nFOUND!!");
+        display.printf("%s\n", other->name);
+        display.display();
+        commonInd = -1;
+        playTune();
+        hasMatched = true;
+    }
 }
 
 void displayMatchDesc(const Profile* me, const Profile* other) {

@@ -30,7 +30,7 @@ PemdasBluetoothServer::PemdasBluetoothServer(const Profile* me)
     /** Start the services when finished creating all Characteristics and Descriptors */
     pDatingSrv->start();
 
-    Serial.println("server: Started dating service");
+    //Serial.println("server: Started dating service");
 
     NimBLEAdvertising* pAdvertising = NimBLEDevice::getAdvertising();
     /** Add the services to the advertisment data **/
@@ -41,7 +41,7 @@ PemdasBluetoothServer::PemdasBluetoothServer(const Profile* me)
     pAdvertising->setScanResponse(true);
     pAdvertising->start();
 
-    Serial.println("server: Started advertising");
+    //Serial.println("server: Started advertising");
 }
 
 
