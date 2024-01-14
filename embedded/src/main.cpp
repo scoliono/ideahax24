@@ -4,12 +4,13 @@
 
 #include "constants.h"
 #include "bt.hpp"
-#include "beep.h"
+#include "disp.hpp"
 #include "serial.hpp"
 
 
 PemdasSerial* srl;
 PemdasBluetooth* bt;
+Display* disp;
 Profile* me;
 
 void setup() {
@@ -30,10 +31,13 @@ void setup() {
 
     // bt needs to know our own profile
     bt = new PemdasBluetooth(me);
+
+    disp = new Display;
 }
 
 void loop() {
     // beepError();
     bt->loop();
+    disp->loop();
     delay(10);
 }

@@ -16,7 +16,7 @@ class AdvertisedDeviceCallbacks: public NimBLEAdvertisedDeviceCallbacks {
 
         if (advertisedDevice->isAdvertisingService(NimBLEUUID(DATE_SRV_UUID)))
         {
-            Serial.println("Found Our Service");
+            Serial.println("client: Found dating service!");
             /** stop scan before connecting */
             NimBLEDevice::getScan()->stop();
             /** Save the device reference in a global for the client to use*/

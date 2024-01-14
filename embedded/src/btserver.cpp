@@ -9,7 +9,6 @@ static char json_str[JSON_DOC_LEN];
 
 PemdasBluetoothServer::PemdasBluetoothServer(const Profile* me)
 {
-    Serial.println("Starting server");
     pServer = NimBLEDevice::createServer();
 
     NimBLEService* pDatingSrv = pServer->createService(DATE_SRV_UUID);
@@ -31,6 +30,8 @@ PemdasBluetoothServer::PemdasBluetoothServer(const Profile* me)
     /** Start the services when finished creating all Characteristics and Descriptors */
     pDatingSrv->start();
 
+    Serial.println("server: Started dating service");
+
     NimBLEAdvertising* pAdvertising = NimBLEDevice::getAdvertising();
     /** Add the services to the advertisment data **/
     pAdvertising->addServiceUUID(pDatingSrv->getUUID());
@@ -39,6 +40,8 @@ PemdasBluetoothServer::PemdasBluetoothServer(const Profile* me)
      */
     pAdvertising->setScanResponse(true);
     pAdvertising->start();
+
+    Serial.println("server: Started advertising");
 }
 
 

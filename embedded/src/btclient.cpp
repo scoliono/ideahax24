@@ -20,7 +20,7 @@ PemdasBluetoothClient::PemdasBluetoothClient(const Profile* profile)
      */
     pScan->setActiveScan(true);
 
-    Serial.println("Starting client");
+    Serial.println("client: scanning for dating services...");
 }
 
 PemdasBluetoothClient::~PemdasBluetoothClient()
